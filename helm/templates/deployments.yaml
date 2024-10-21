@@ -1,4 +1,3 @@
-{{ if .Values.webapp.enabled }}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,7 +43,6 @@ spec:
           env:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-{{ endif }}
 {{ if .Values.wg.enabled }}
 ---
 apiVersion: apps/v1
