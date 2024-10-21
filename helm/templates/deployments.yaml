@@ -1,0 +1,85 @@
+{{ if .Values.webapp.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wg-manager.fullname" . }}-webapp
+  labels:
+    {{- include ".Values.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.webapp.replicaCount }}
+  selector:
+    matchLabels:
+      name: {{ include "wg-manager.fullname" . }}-webapp
+  template:
+    metadata:
+      {{- with .Values.webapp.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        name: {{ include "wg-manager.fullname" . }}-webapp
+        {{- include "wg-manager.labels" . | nindent 8 }}
+	    {{- with .Values.webapp.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      containers:
+        - name: webapp
+          image: "ghcr.io/withercom/wg-manager/webapp:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /up
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /up
+              port: http
+          {{- with .Values.webapp.env }}
+          env:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+{{ endif }}
+{{ if .Values.wg.enabled }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "wg-manager.fullname" . }}-wg
+  labels:
+    {{- include ".Values.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: {{ include "wg-manager.fullname" . }}-wg
+  template:
+    metadata:
+      {{- with .Values.wg.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        name: {{ include "wg-manager.fullname" . }}-wg
+        {{- include "wg-manager.labels" . | nindent 8 }}
+	    {{- with .Values.wg.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      containers:
+        - name: wg
+          image: "ghcr.io/withercom/wg-manager/wg:latest"
+          imagePullPolicy: IfNotPresent
+          ports:
+            {{- range .Values.wg.ports }}
+            - name: port{{ . }}
+              containerPort: {{ . }}
+              protocol: UDP
+            {{- end }}
+          env:
+{{ endif }}
