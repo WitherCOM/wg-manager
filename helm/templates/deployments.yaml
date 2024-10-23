@@ -26,7 +26,7 @@ spec:
       containers:
         - name: webapp
           image: "ghcr.io/withercom/wg-manager/webapp:latest"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           args:
             - sh
             - -c
@@ -82,7 +82,7 @@ spec:
       containers:
         - name: wg
           image: "ghcr.io/withercom/wg-manager/wg:latest"
-          imagePullPolicy: IfNotPresent
+          imagePullPolicy: Always
           securityContext:
             capabilities:
               add:
