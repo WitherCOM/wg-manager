@@ -4,8 +4,6 @@ on:
   push:
     branches:
     - master
-    paths:
-    - webapp
 jobs:
   build:
     runs-on: ubuntu-latest
