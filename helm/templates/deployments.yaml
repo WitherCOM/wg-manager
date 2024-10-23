@@ -27,6 +27,10 @@ spec:
         - name: webapp
           image: "ghcr.io/withercom/wg-manager/webapp:latest"
           imagePullPolicy: IfNotPresent
+          args:
+            - sh
+            - -c
+            - /usr/sbin/php-fpm82 && nginx -g 'daemon off;'
           ports:
             - name: http
               containerPort: 80
