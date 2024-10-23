@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: {{ include "wg-manager.fullname" . }}-webapp
   labels:
-    {{- include ".Values.labels" . | nindent 4 }}
+    {{- include "wg-manager.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.webapp.replicaCount }}
   selector:
@@ -53,7 +53,7 @@ kind: Deployment
 metadata:
   name: {{ include "wg-manager.fullname" . }}-wg
   labels:
-    {{- include ".Values.labels" . | nindent 4 }}
+    {{- include "wg-manager.labels" . | nindent 4 }}
 spec:
   replicas: 1
   selector:
