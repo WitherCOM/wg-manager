@@ -43,6 +43,9 @@ spec:
             httpGet:
               path: /up
               port: http
+          env:
+            - name: APP_URL
+              value: http://{{ include "wg-manager.fullname" . }}-webapp.{{ Release.Namespace }}
           envFrom:
             - secretRef:
                 name: {{.Values.webapp.secret}}
