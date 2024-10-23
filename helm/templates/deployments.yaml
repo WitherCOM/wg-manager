@@ -1,4 +1,8 @@
 ---
+{{- define "app_url" -}}
+http://{{ include "wg-manager.fullname" . }}-webapp.{{ Release.Namespace }}
+{{ end -}}
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -43,9 +47,6 @@ spec:
             httpGet:
               path: /up
               port: http
-          env:
-            - name: APP_URL
-              value: http://{{ include "wg-manager.fullname" . }}-webapp.{{ Release.Namespace }}
           envFrom:
             - secretRef:
                 name: {{.Values.webapp.secret}}
@@ -93,6 +94,9 @@ spec:
               containerPort: {{ . }}
               protocol: UDP
             {{- end }}
+          env:
+            - name: APP_URL
+              value: {{- template "app_url"  -}}
           envFrom:
             - secretRef:
                 name: {{.Values.wg.secret}}
