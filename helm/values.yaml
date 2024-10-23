@@ -2,6 +2,7 @@ webapp:
   replicaCount: 1
   podAnnotations: {}
   podLabels: {}
+  secret: webapp-secret
   service:
     type: ClusterIP
     port: 80

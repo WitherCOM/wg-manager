@@ -39,6 +39,9 @@ spec:
             httpGet:
               path: /up
               port: http
+          envFrom:
+            - secretRef:
+                name: {{.Values.webapp.secret}}
           {{- with .Values.webapp.env }}
           env:
             {{- toYaml . | nindent 12 }}
