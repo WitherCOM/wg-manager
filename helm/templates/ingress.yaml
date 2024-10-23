@@ -1,8 +1,10 @@
 {{- if .Values.webapp.ingress.enabled -}}
+{{- $fullName := include "wg-manager.fullname" . -}}
+{{- $svcPort := .Values.webapp.service.port -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "wg-manager.fullname" . }}-webapp
+  name: {{ $fullName }}-webapp
   labels:
     {{- include "wg-manager.labels" . | nindent 4 }}
   {{- with .Values.webapp.ingress.annotations }}
@@ -34,15 +36,10 @@ spec:
             pathType: {{ .pathType }}
             {{- end }}
             backend:
-              {{- if semverCompare ">=1.19-0" $.Capabilities.KubeVersion.GitVersion }}
               service:
-                name: {{ include "wg-manager.fullname" . }}-webapp
+                name: {{ $fullName }}-webapp
                 port:
-                  number: {{ .Values.webapp.service.port }}
-              {{- else }}
-              serviceName: {{ include "wg-manager.fullname" . }}-webapp
-              servicePort: {{ .Values.webapp.service.port }}
-              {{- end }}
+                  number: {{ $svcPort }}
           {{- end }}
     {{- end }}
 {{- end }}
