@@ -10,3 +10,10 @@ there is instance of the web app. You can administrate wireguard peers and subne
 
 ### Wireguard
 ..
+
+
+## Setup
+### with helm on kubernetes cluster
+```
+helm upgrade --install -n wg-manager --create-namespace ./helm wg-manager
+```

@@ -73,11 +73,22 @@ spec:
         - name: wg
           image: "ghcr.io/withercom/wg-manager/wg:latest"
           imagePullPolicy: IfNotPresent
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
           ports:
-            {{- range .Values.wg.ports }}
+            {{- range .Values.wg.service.ports }}
             - name: port{{ . }}
               containerPort: {{ . }}
               protocol: UDP
             {{- end }}
-          env:
+          envFrom:
+            - secretRef:
+                name: {{.Values.wg.secret}}
+      {{- with .Values.wg.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+
 {{ endif }}

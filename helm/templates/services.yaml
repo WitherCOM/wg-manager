@@ -25,7 +25,7 @@ metadata:
 spec:
   type: {{ .Values.wg.service.type }}
   ports:
-    {{- range .Values.wg.ports }}
+    {{- range .Values.wg.service.ports }}
     - port: {{ . }}
       targetPort: port{{.}}
       protocol: UDP

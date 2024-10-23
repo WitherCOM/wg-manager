@@ -1,0 +1,32 @@
+webapp:
+  replicaCount: 1
+  podAnnotations: {}
+  podLabels: {}
+  service:
+    type: ClusterIP
+    port: 80
+  ingress:
+    enabled: true
+    className: "public"
+    annotations: 
+      cert-manager.io/cluster-issuer: "letsencrypt-http-issuer"
+    hosts:
+      - host: example.com
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: 
+     - secretName: hello-corecluster-tls
+       hosts:
+         - example.com
+wg:
+  enabled: true
+  podLabels: {}
+  podAnnotations: {}
+  service:
+    type: NodeIp
+    ports:
+      - 50820
+  nodeSelector: {}
+  secret: wg-secret
+
