@@ -1,7 +1,4 @@
 ---
-{{- define "app_url" -}}
-http://{{ include "wg-manager.fullname" . }}-webapp.{{ Release.Namespace }}
-{{ end -}}
 
 apiVersion: apps/v1
 kind: Deployment
@@ -94,9 +91,6 @@ spec:
               containerPort: {{ . }}
               protocol: UDP
             {{- end }}
-          env:
-            - name: APP_URL
-              value: {{- template "app_url"  -}}
           envFrom:
             - secretRef:
                 name: {{.Values.wg.secret}}
