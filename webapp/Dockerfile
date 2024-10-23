@@ -9,4 +9,4 @@ FROM ghcr.io/withercom/docker-laravel:php82
 ADD --chown=nginx:nginx ./ /srv/http
 COPY --chown=nginx:nginx --from=npm /usr/src/app/public /srv/http/public
 WORKDIR /srv/http
-RUN apk add wireguard-tools-wg-quick composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --optimize-autoloader
+RUN apk add wireguard-tools-wg-quick && composer install --no-ansi --no-dev --no-interaction --no-plugins --no-progress --optimize-autoloader
