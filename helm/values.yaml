@@ -10,14 +10,14 @@ webapp:
     enabled: true
     className: "public"
     annotations: 
-      cert-manager.io/cluster-issuer: "letsencrypt-http-issuer"
+      cert-manager.io/cluster-issuer: "letsencrypt"
     hosts:
       - host: example.com
         paths:
           - path: /
             pathType: ImplementationSpecific
     tls: 
-     - secretName: hello-corecluster-tls
+     - secretName: test-tls
        hosts:
          - example.com
 wg:
