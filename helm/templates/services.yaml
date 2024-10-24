@@ -27,6 +27,7 @@ spec:
   ports:
     {{- range .Values.wg.service.ports }}
     - port: {{ . }}
+      nodePort: {{ . }}
       targetPort: port{{.}}
       protocol: UDP
       name: port{{.}}

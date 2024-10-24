@@ -87,7 +87,6 @@ spec:
                 - NET_ADMIN
           ports:
             {{- range .Values.wg.service.ports }}
-            - nodePort: {{ . }}
               name: port{{ . }}
               containerPort: {{ . }}
               protocol: UDP
