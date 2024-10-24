@@ -39,8 +39,8 @@ class SubnetResource extends Resource
                         Forms\Components\TextInput::make('port')
                             ->required()
                             ->integer()
-                            ->minValue(49152)
-                            ->maxValue(65535)
+                            ->minValue(30000)
+                            ->maxValue(32767)
                     ])
                 ->columns(5),
                 Forms\Components\TextInput::make('preshared_key')
