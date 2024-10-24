@@ -1,5 +1,5 @@
 [Interface]
-Address = {{ $subnet->gateway }}
+Address = {{ $subnet->gateway }}/{{ $subnet->mask }}
 ListenPort = {{ $subnet->port }}
 PrivateKey = {{ $subnet->private_key }}
 
@@ -16,6 +16,6 @@ PostDown = iptables -t nat -D POSTROUTING -o eth+ -j MASQUERADE
 # {{ $peer->name }}
 PublicKey = {{ $peer->public_key }}
 PresharedKey = {{ $subnet->preshared_key }}
-AllowedIPs = {{ $peer->ip_address }}/{{ $subnet->mask }}
+AllowedIPs = {{ $peer->ip_address }}/32
 @endbareforeach
 
