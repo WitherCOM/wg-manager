@@ -25,9 +25,9 @@ wg:
   podLabels: {}
   podAnnotations: {}
   service:
-    type: NodeIp
+    type: NodePort
     ports:
-      - 50820
+      - 30001
   nodeSelector: {}
   secret: wg-secret
 
