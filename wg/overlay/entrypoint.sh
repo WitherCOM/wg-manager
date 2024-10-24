@@ -2,7 +2,7 @@
 
 setup_wireguard() {
   # disable interfaces
-  wg-quick down *
+  wg-quick down /etc/wireguard/*.conf 
 
   # clear configs
   rm /etc/wireguard/*.conf 
