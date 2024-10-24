@@ -1,5 +1,5 @@
 [Interface]
-Address = {{ $peer->id }}
+Address = {{ $peer->ip_address }}
 PrivateKey = {{ $peer->private_key }}
 DNS = {{ $peer->subnet->gateway }}
 
