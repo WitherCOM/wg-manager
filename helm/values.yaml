@@ -28,6 +28,15 @@ wg:
     type: NodePort
     ports:
       - 30001
+      - 30002
+      - 30003
+      - 30004
+      - 30005
+      - 30006
+      - 30007
+      - 30008
+      - 30009
+      - 30010
   nodeSelector: {}
   secret: wg-secret
 

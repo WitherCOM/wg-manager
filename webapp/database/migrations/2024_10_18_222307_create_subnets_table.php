@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('preshared_key');
             $table->string('private_key');
             $table->ipAddress('network');
-            $table->integer('port');
+            $table->integer('port')->unique();
             $table->integer('mask');
             $table->timestamps();
         });
