@@ -24,6 +24,6 @@ setup_wireguard() {
 #infinite loop, refresh after 20 minutes
 while true
 do
-  setup_wireguard()
+  setup_wireguard
   sleep 1200
 done
