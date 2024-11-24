@@ -22,7 +22,7 @@ setup_wireguard() {
 }
 
 # start coredns 
-/usr/bin/coredns -conf /etc/coredns/Coreconf -dns.port=53 &
+/usr/bin/coredns -conf /etc/coredns/Corefile -dns.port=53 &
 
 #infinite loop, refresh after 20 minutes
 while true
