@@ -1,22 +1,14 @@
 services:
   webapp:
-    hostname: webapp
     build:
-      context: webapp
-      dockerfile: dev.Dockerfile
-    command:
-      - sh
-      - -c
-      - /usr/sbin/php-fpm82 && nginx -g 'daemon off;'
+      context: .
+      dockerfile: Dockerfile.dev 
     volumes:
-      - "./webapp:/srv/http"
+    - .:/app
+    command:
+      - web
     ports:
       - "8080:80"
-  wg:
-    environment:
-      APP_URL: 'webapp'
-      TOKEN: 'RgV7mpSkRIDI13p9emd01AAOeAqwWQ5rw0KKdObKAfTfraJbfGz6Dtx'
-    build:
-      context: wg
-    privileged: true
+    cap_add:
+      - NET_ADMIN
 

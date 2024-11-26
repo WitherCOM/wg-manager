@@ -14,6 +14,12 @@ class SubnetCollisionRule implements ValidationRule, DataAwareRule
 
     protected $type;
 
+    protected Subnet|null $subnet;
+
+    public function __construct(Subnet|null $subnet)
+    {
+        $this->subnet = $subnet;
+    }
 
     /**
      * Run the validation rule.
@@ -26,7 +32,7 @@ class SubnetCollisionRule implements ValidationRule, DataAwareRule
             'mask' => $this->mask,
             'network' => $this->network
         ]);
-        foreach (Subnet::all() as $subnet)
+        foreach (Subnet::query()->whereNot('id', $this->subnet?->id)->get() as $subnet)
         {
             if ($subnet->overlapsWith($fakeSubnet))
             {

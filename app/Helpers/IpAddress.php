@@ -19,6 +19,16 @@ class IpAddress
         }
     }
 
+    public static function fromMask(int $mask)
+    {
+        $num = 0;
+        for ($i = 0; $i < $mask; $i++)
+        {
+            $num += pow(2,$i);
+        }
+        return IpAddress::fromInt($num);
+    }
+
     public static function fromInt(int $address_int): IpAddress
     {
         return new IpAddress(address_int: $address_int);

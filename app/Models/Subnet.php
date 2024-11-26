@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 
 class Subnet extends Model
 {
@@ -37,6 +38,18 @@ class Subnet extends Model
                 $subnet->preshared_key = Wireguard::genPresharedKey();
             }
             $subnet->private_key = Wireguard::genPrivateKey();
+        });
+
+        static::created(function(Subnet $subnet) {
+            $subnet->interfaceUp();
+        });
+
+        static::updated(function(Subnet $subnet) {
+            $subnet->interfaceUp();
+        });
+
+        static::deleted(function(Subnet $subnet) {
+            $subnet->interfaceDown();
         });
     }
 
@@ -83,12 +96,37 @@ class Subnet extends Model
 
     public function overlapsWith(Subnet $subnet)
     {
-        $min_mask = min(IpAddress::fromString($subnet->mask)->getBytes(), IpAddress::fromString($this->mask)->getBytes());
+        $min_mask = min(IpAddress::fromMask($subnet->mask)->getBytes(), IpAddress::fromMask($this->mask)->getBytes());
         return (IpAddress::fromString($subnet->network)->getBytes() & $min_mask) === (IpAddress::fromString($this->network)->getBytes() & $min_mask);
     }
 
-    public function config(): \Illuminate\Contracts\View\View
+    public function interfaceUp()
     {
-        return View::make('server_config', ['subnet' => $this]);
+        $name = Str::of($this->id)->replace("-","")->take(15)->toString();
+
+        // Disable interface if it is up
+        exec("wg-quick down $name");
+
+        // Generate config file
+        file_put_contents("/etc/wireguard/$name.conf",
+            View::make('server_config', ['subnet' => $this])->render());
+
+        // Enable interface
+        exec("wg-quick up $name");
+    }
+
+    public function interfaceDown()
+    {
+        $name = Str::of($this->id)->replace("-","")->take(15)->toString();
+
+        // Disable interface if it is up
+        exec("wg-quick down $name");
+
+        // Delete config file
+        if (file_exists("/etc/wireguard/$name.conf"))
+        {
+            unlink("/etc/wireguard/$name.conf");
+        }
+
     }
 }

@@ -1,19 +1,10 @@
 services:
   webapp:
-    image: ghcr.io/withercom/wg-manager/webapp:latest
+    image: ghcr.io/withercom/wg-manager:latest
     command:
-      - sh
-      - -c
-      - /usr/sbin/php-fpm82 && nginx -g 'daemon off;'
-    volumes:
-      - "./webapp:/srv/http"
+      - web
     ports:
       - "8080:80"
-  wg:
-    image: ghcr.io/withercom/wg-manager/wg:latest
-    environment:
-      APP_URL: 'webapp'
-      TOKEN: 'RgV7mpSkRIDI13p9emd01AAOeAqwWQ5rw0KKdObKAfTfraJbfGz6Dtx'
     cap_add:
       - NET_ADMIN
 

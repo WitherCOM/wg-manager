@@ -1,0 +1,14 @@
+FROM ghcr.io/withercom/docker-laravel:php8.3
+COPY ./overlay /
+
+RUN apk add --no-cache wireguard-tools-wg-quick \ 
+    iptables \
+    jq \
+    curl \
+    coredns \
+    openresolv \
+    wget \
+    nodejs \
+    npm
+
+RUN wget -O - https://getcomposer.org/installer | php -- --filename=composer --install-dir=/usr/bin

@@ -29,7 +29,9 @@ class SubnetResource extends Resource
                         Forms\Components\TextInput::make('network')
                             ->required()
                             ->ipv4()
-                            ->rule(new SubnetCollisionRule())
+                            ->rule(function (Forms\Components\TextInput $component) {
+                                return new SubnetCollisionRule($component->getRecord());
+                            })
                             ->columnSpan(4),
                         Forms\Components\TextInput::make('mask')
                             ->required()
@@ -39,7 +41,7 @@ class SubnetResource extends Resource
                         Forms\Components\TextInput::make('port')
                             ->required()
                             ->integer()
-                            ->unique()
+                            ->unique(ignoreRecord: true)
                             ->minValue(30001)
                             ->maxValue(30010)
                     ])
