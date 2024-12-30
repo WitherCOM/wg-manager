@@ -1,6 +1,5 @@
 . {
     loop
+    forward . kube-dns.kube-system.svc.cluster.local
     errors
-    health
-    forward . /etc/resolv.conf
 }
